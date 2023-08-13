@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+	<title>HomeWork</title>
+	<style>
+		#square {
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			background-color: #e91bab;
+			cursor: pointer;
+		}
+
+		#btn {
+			width: 100px;
+			height: 44px;
+			border-radius: 5px;
+			background-color: #4f4fc5;
+			font-size: 16px;
+			color: #fff;
+			margin-top: 120px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<!-- 2. создайте div, при клике на него, div начинает двигаться вправо, при клике на кнопку - останавливается,
+	при попадании div к краю окна, он переходит к началу окна. -->
+	
+	<div id="square"></div>
+	<button id="btn">Зупинити</button>
+	<script>
+		// Отримуємо посилання на елементи
+		var movingSquare = document.getElementById('square');
+		var stopBtn = document.getElementById('btn');
+
+		// Ініціалізуємо змінні
+		var movementInterval = null; // Зберігає ідентифікатор інтервалу для руху
+		var currentPosition = 0; // Початкова позиція div по горизонталі
+		var speed = 5; // Швидкість руху
+	
+		// Функція для переміщення div
+		function moveSquare() {
+		  // Збільшуємо поточну позицію на швидкість
+		  currentPosition += speed;
+		  // Якщо div досяг краю вікна, переміщуємо його на початок вікна
+		  if (currentPosition > window.innerWidth) {
+			currentPosition = 0;
+		  }
+
+		  // Встановлюємо нову позицію для div
+		  movingSquare.style.left = currentPosition + 'px';
+		}
+	
+		// При кліку на div починаємо рух з інтервалом
+		movingSquare.addEventListener('click', () => {
+			if (!movementInterval) {
+				movementInterval = setInterval(moveSquare, 20); // Викликаємо функцію moveSquare кожні 20 мілісекунд
+			}
+			else {
+				clearInterval(movementInterval); // Очищуємо інтервал руху
+				movementInterval = null; // Скидаємо ідентифікатор інтервалу
+			}
+		});
+	
+		// При кліку на кнопку "Зупинити" припиняємо рух
+		stopBtn.addEventListener('click', () => {
+		  clearInterval(movementInterval); // Очищуємо інтервал руху
+		  movementInterval = null; // Скидаємо ідентифікатор інтервалу
+		});
+	</script>
+</body>
+</html>

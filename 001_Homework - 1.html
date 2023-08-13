@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+	<title>HomeWork</title>
+	<style>
+		.draggable {
+			width: 100px;
+			height: 100px;
+			border-radius: 50px;
+			background-color: #e91bab;
+			position: absolute;
+			cursor: move;
+		}
+	</style>
+</head>
+<body>
+	<!-- 1. drag and drop; -->
+	
+	<div id="draggable-circle" class="draggable"></div>
+
+	<script>
+		// Отримуємо елемент кулі
+		var draggableCircle = document.getElementById('draggable-circle');
+
+		// Створюємо змінні для зберігання зміщення курсору щодо кулі
+		var offsetX, offsetY;
+		// Флаг для визначення стану перетягування
+		var isDragging = false;
+
+		// Обробник натискання кнопки миші на кулю
+		draggableCircle.addEventListener('mousedown', (event) => {
+			// Встановлюємо флаг перетягування в true
+			isDragging = true;
+			// Обчислюємо зміщення курсору
+			offsetX = event.clientX - draggableCircle.getBoundingClientRect().left;
+			offsetY = event.clientY - draggableCircle.getBoundingClientRect().top;
+		});
+
+		// Обробник руху миші
+		document.addEventListener('mousemove', (event) => {
+			// Якщо куля перетягується
+			if (isDragging) {
+				// Обчислюємо нові координати квадрата на основі позиції курсору
+				var x = event.clientX - offsetX;
+				var y = event.clientY - offsetY;
+
+				// Отримуємо розміри вікна браузера
+				var windowWidth = window.innerWidth;
+				var windowHeight = window.innerHeight;
+				
+				// Обмежуємо координати кулі, щоб вона не виходила за межі екрану
+				var maxX = windowWidth - draggableCircle.offsetWidth;
+				var maxY = windowHeight - draggableCircle.offsetHeight;
+				
+				// Застосовуємо обмеження на координати
+				var clampedX = Math.min(Math.max(x, 0), maxX);
+				var clampedY = Math.min(Math.max(y, 0), maxY);
+				
+				// Встановлюємо нові координати для кулі
+				draggableCircle.style.left = `${clampedX}px`;
+				draggableCircle.style.top = `${clampedY}px`;
+			}
+		});
+
+		// Обробник відпускання кнопки миші
+		document.addEventListener('mouseup', () => {
+			// Скидаємо флаг перетягування
+			isDragging = false;
+		});
+
+		// Обробник події dragstart для кулі
+		draggableCircle.addEventListener('dragstart', (event) => {
+			// Скасуємо стандартну поведінку браузера при початку перетягування
+			event.preventDefault();
+		});
+	</script>
+</body>
+</html>
